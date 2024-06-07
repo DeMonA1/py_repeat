@@ -34,7 +34,7 @@ def square_it(func):
         return result * result
     return new_function
 
-#test
+#test with the result
 @document_it
 @square_it
 def add_ints(a, b):
