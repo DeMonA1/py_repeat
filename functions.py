@@ -22,7 +22,7 @@ add_ints(3,5)
 cooler_add_ints = document_it(add_ints)     #create the decorator
 cooler_add_ints(3,5)
 
-#test
+#test 1
 @document_it
 def add_ints(a,b):
     return a + b
@@ -46,3 +46,6 @@ add_ints(3,5)
 def add_ints(a, b):
     return a + b
 add_ints(3,5)
+
+class Cat():
+    pass
