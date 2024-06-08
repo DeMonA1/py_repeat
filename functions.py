@@ -46,6 +46,3 @@ add_ints(3,5)
 def add_ints(a, b):
     return a + b
 add_ints(3,5)
-
-class Cat():
-    pass
