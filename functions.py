@@ -46,3 +46,73 @@ add_ints(3,5)
 def add_ints(a, b):
     return a + b
 add_ints(3,5)
+
+
+#recursion
+def flatten(lol):
+    for item in lol:
+        if isinstance(item, list):
+            for subitem in flatten(item):
+                yield subitem
+        else:
+            yield item
+lol = [1,2, [3,4,5], [6,[7,8,9], []]]
+list(flatten(lol))
+
+def flatten1(lol):
+    for item in lol:
+        if isinstance(item, list):
+            yield from flatten1(item)
+        else:
+            yield item
+list(flatten1(lol))
+
+def deco(func):
+    def new_func(*args, **kwargs):
+        print('start')
+        result = func(*args, **kwargs)
+        print('end')
+        return result
+    return new_func
+
+#a simple generator
+@deco
+def foo():
+    def get_odds():
+        for i in range(10):
+            if i % 2 > 0:
+                yield i
+    count = 0           
+    for i in get_odds():
+        count += 1
+        if count == 3:
+            print(i)
+            break
+    return get_odds()
+foo()
+
+#an exception
+class OopsException(BaseException):
+    pass
+
+def foo1():
+    l = {1:'asd',2:'vvv'}
+    try:
+        raise OopsException()
+    except:
+        print('Caught an oops')
+
+foo1()
+
+def test(func):
+    def new_era(*args, **kwargs):
+        print('start')
+        res = func(*args, **kwargs)
+        print('end')
+        return res
+    return new_era
+@test
+def tera(l):
+    print(l)
+
+tera('das')
