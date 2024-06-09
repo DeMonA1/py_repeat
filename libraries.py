@@ -108,4 +108,5 @@ random.randrange(34,333)
 random.randrange(38,111, 10)
 
 random.random()
+random.random()
 
