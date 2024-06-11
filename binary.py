@@ -1,6 +1,6 @@
 """#bytes and bytearray"""
 
-import struct, binascii, unicodedata, re
+import struct, binascii, unicodedata, re, binascii
 
 
 #bytes and bytearray
@@ -73,3 +73,9 @@ re.findall(r'\bc\w*\b', mammoth)
 re.findall(r'\bc\w{3}\b', mammoth)
 re.findall(r'\b\w*r\b', mammoth)
 re.findall(r'\b\w*[eyuioa]{3}\w*\b', mammoth)
+gif = binascii.unhexlify('47494638396101000100800000000000ffffff21f9'+
+'0401000000002c000000000100010000020144003b')
+gif = b'GIF89a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\xff\xff\xff!' + \
+b'\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x01D\x00;'
+struct.unpack('<HH',gif[6:10])
+
