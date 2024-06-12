@@ -1,3 +1,5 @@
+import os,shutil
+
 fout = open('oops.txt','wt')
 print('Oops, I created a file.', file=fout)
 fout.close()
@@ -95,4 +97,66 @@ bdata = fin.read()
 len(bdata)
 fin.close()
 
-with open()
+with open('relativity','wt') as fout:
+    fout.write(poem)
+
+fin = open('bfile', 'rb')
+fin.tell()
+fin.seek(255)
+bdata = fin.read()
+len(bdata)
+bdata[0]
+
+
+os.SEEK_SET
+os.SEEK_CUR
+os.SEEK_END
+fin = open('bfile','rb')
+fin.seek(-1,2)
+fin.tell()
+bdata = fin.read()
+len(bdata)
+bdata[0]
+
+fin = open('bfile','rb')
+fin.seek(254, 0)
+fin.tell()
+fin.seek(1,1)
+fin.tell()
+bdata = fin.read()
+len(bdata)
+bdata[0]
+
+
+
+os.path.exists('oops.txt')
+os.path.exists('./oops.txt')
+os.path.exists('waffles')
+os.path.exists('.')
+os.path.exists('..')
+
+name = 'oops.txt'
+os.path.isfile(name)
+os.path.isdir(name)
+os.path.isdir('.')
+os.path.isabs(name)
+os.path.isabs('/b/b/b/b')
+os.path.isabs('b/b/b/b')
+
+
+shutil.copy('oops.txt', 'ohno.txt')
+os.rename('ohno.txt', 'ohwell.txt')
+os.link('oops.txt','yikex.txt')
+os.path.isfile('yikex.txt') #TRUE
+os.path.islink('yikex.txt')     #FALSE
+os.symlink('oops.txt', 'jeepers.txt')
+os.path.islink('jeepers.txt')
+os.remove('oops.txt')
+os.path.exists('oops.txt')
+
+
+
+os.mkdir('poems')
+os.path.exists('poems')
+os.rmdir('poems')
+os.path.exists('poems')
