@@ -1,4 +1,4 @@
-import os, subprocess
+import os, subprocess, psutil,pprint
 
 
 os.getpid()
@@ -18,3 +18,9 @@ ret
 
 os.cpu_count()
 os.system('date /t')
+
+
+
+pprint.pprint(psutil.cpu_times(True))
+psutil.cpu_percent(True)
+psutil.cpu_percent(percpu=True)
