@@ -1,4 +1,5 @@
 import urllib.request as ur
+import webbrowser
 
 
 url = 'http://www.example.com'
@@ -12,3 +13,12 @@ print(str_data[:50])
 
 for key, value in conn.getheaders():
     print(key, value)
+    
+
+
+url = 'http://www.python.org/'
+webbrowser.open_new(url)
+webbrowser.open(url)
+webbrowser.open_new_tab(url)
+
+

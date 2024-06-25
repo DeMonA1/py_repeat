@@ -16,7 +16,7 @@ data = client.recv(max_size)
 
 print('At', datetime.now(), client, 'said', data)
 
-server.sendall(b'Are you talking to me?')
+client.sendall(b'Are you talking to me?')
 
 client.close()
 server.close()

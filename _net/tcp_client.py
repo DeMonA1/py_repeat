@@ -11,4 +11,3 @@ client.sendall(b'Hey!')
 data = client.recv(max_size)
 print('At', datetime.now(),'someone replied', data.decode('utf-8'))
 
-client.close()
