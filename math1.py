@@ -92,3 +92,4 @@ with open('../data_folder/books.csv', 'rt') as book:
     print(books)
     pandas.read_csv(book)
     pandas.read_csv(book, sep='|')
+    print(book)
