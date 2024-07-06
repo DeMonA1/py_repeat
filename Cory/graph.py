@@ -84,5 +84,3 @@ graph = {
 }
 # dijkstra(graph, 'A',target='E')
 print(dijkstra(graph,'A',target='E'))
-
-
