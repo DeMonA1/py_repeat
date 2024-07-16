@@ -82,7 +82,7 @@ class Node(Generic[T]):
     
 def dfs(initial: T, goal_test: Callable[[T], bool], successors: Callable[[T], 
         List[T]]) -> Optional[Node[T]]:
-    global count_dfs
+    count_dfs = 0
     # fronier - is what we need to check
     frontier: Stack[Node[T]] = Stack()
     frontier.push(Node(initial, None))
@@ -95,7 +95,7 @@ def dfs(initial: T, goal_test: Callable[[T], bool], successors: Callable[[T],
         current_state: T = current_node.state
         # if we found what we are looking for - done
         if goal_test(current_state):
-            return current_node
+            return current_node, count_dfs
         # to check where we can go further and what we havent explored already
         for child in successors(current_state):
             count_dfs += 1
@@ -103,7 +103,7 @@ def dfs(initial: T, goal_test: Callable[[T], bool], successors: Callable[[T],
                 continue
             explored.add(child) 
             frontier.push(Node(child, current_node))
-    return None                         # we have checked everything, didnt find the way to target point
+    return None, count_dfs                         # we have checked everything, didnt find the way to target point
 
 def node_to_path(node: Node[T]) -> List[T]:
     path: List[T] = [node.state]
@@ -133,7 +133,7 @@ class Queue(Generic[T]):
     
 def bfs(initial: T, goal_test: Callable[[T], bool], successors: Callable[[T], 
         List[T]]) -> Optional[Node[T]]:
-    global count_bfs
+    count_bfs = 0
     # fronier - is what we need to check
     frontier: Queue[Node[T]] = Queue()
     frontier.push(Node(initial, None))
@@ -146,15 +146,16 @@ def bfs(initial: T, goal_test: Callable[[T], bool], successors: Callable[[T],
         current_state: T = current_node.state
         # if we found what we are looking for - done
         if goal_test(current_state):
-            return current_node
+            return current_node, count_bfs
         # looking for unexplored cells to go to
         for child in successors(current_state):
+            print(child)
             count_bfs += 1
             if child in explored:           # skip states that have already been explored
                 continue
             explored.add(child) 
             frontier.push(Node(child, current_node))
-    return None                         # we have checked everything, didnt find the way to target point
+    return None, count_bfs                         # we have checked everything, didnt find the way to target point
 
 
 class PriorityQueue(Generic[T]):

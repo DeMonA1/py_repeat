@@ -98,43 +98,48 @@ def manhattan_distance(goal: MazeLocation) -> Callable[[MazeLocation], float]:
 
 
 if __name__ == '__main__':
-    count_astar = 0
-    count_dfs = 0
-    count_bfs = 0
-    # test DFS       
-    m: Maze = Maze()
-    print(m)
-    solution1: Optional[Node[MazeLocation]] = dfs(m.start, m.goal_test,
-                                                  m.successors)
-    if solution1 is None:
-        print('No solution found using depth-first search!')
-    else:
-        path1: List[MazeLocation] = node_to_path(solution1)
-        m.mark(path1)
-        print(m)
-        m.clear(path1)
     
-    # test BFS
-    solution2: Optional[Node[MazeLocation]] = bfs(m.start, m.goal_test, m.successors)
-    if solution2 is None:
-        print('No solution found using breadth-first search!')
-    else:
-        path2: List[MazeLocation] = node_to_path(solution2)
-        m.mark(path2)
+    count_astar1 = 0
+    count_dfs1 = 0
+    count_bfs1 = 0
+    
+    for i in range(100):
+        # test DFS       
+        m: Maze = Maze()
         print(m)
-        m.clear(path2)
+        solution1, count_dfs = dfs(m.start, m.goal_test, m.successors)
+        count_dfs1 += count_dfs
+        if solution1 is None:
+            print('No solution found using depth-first search!')
+        else:
+            path1: List[MazeLocation] = node_to_path(solution1)
+            m.mark(path1)
+            print(m)
+            m.clear(path1)
         
-    # test A*
-    distance: Callable[[MazeLocation], float] = manhattan_distance(m.goal)
-    solution3, count_astar = astar(m.start, m.goal_test,
-                                                    m.successors, distance)
-    if solution3 is None:
-        print('No soltion found using A*!')
-    else:
-        count_astar += count_astar
-        path3: List[MazeLocation] = node_to_path(solution3)
-        m.mark(path3)
-        print(m)
+        # test BFS
+        solution2, count_bfs = bfs(m.start, m.goal_test, m.successors)
+        count_bfs1 += count_bfs
+        if solution2 is None:
+            print('No solution found using breadth-first search!')
+        else:
+            path2: List[MazeLocation] = node_to_path(solution2)
+            m.mark(path2)
+            print(m)
+            m.clear(path2)
+            
+        # test A*
+        distance: Callable[[MazeLocation], float] = manhattan_distance(m.goal)
+        solution3, count_astar = astar(m.start, m.goal_test,
+                                                        m.successors, distance)
+        count_astar1 += count_astar
+        if solution3 is None:
+            print('No soltion found using A*!')
+        else:
+            path3: List[MazeLocation] = node_to_path(solution3)
+            m.mark(path3)
+            print(m)
+    print(count_bfs1, count_dfs1, count_astar1)
     
    
    
