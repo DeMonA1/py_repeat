@@ -27,6 +27,8 @@ if __name__ == '__main__':
         rows[column] = [1, 2, 3, 4, 5, 6, 7, 8]
     csp: CSP[int, int] = CSP(columns, rows)
     csp.add_constraint(QueensConstraint(columns))
+    #for a in csp.constraints.values():
+       # print(a[0].variables)
     solution: Optional[Dict[int, int]] = csp.backtracking_search()
     if solution is None:
         print('No solution found!')
