@@ -2,14 +2,15 @@ from __future__ import annotations
 from typing import List, Optional
 from generic_search import bfs,dfs, Node, node_to_path
 
-MAX_NUM: int = 3
+MAX_NUM_C: int = 1
+MAX_NUM_M: int = 2
 
 class MCState:
     def __init__(self, missionaries: int, cannibals: int, boat: bool) -> None:
         self.wm: int = missionaries         # missionaries from a west bank
         self.wc: int = cannibals            # cannibals from a west bank
-        self.em: int = MAX_NUM - self.wm    # missionaries from a east bank
-        self.ec: int = MAX_NUM - self.wc    # cannibals from a east bank
+        self.em: int = MAX_NUM_M - self.wm    # missionaries from a east bank
+        self.ec: int = MAX_NUM_C - self.wc    # cannibals from a east bank
         self.boat: bool = boat
         
     def __str__(self) -> str:
@@ -19,7 +20,7 @@ class MCState:
                 .format(self.wm, self.wc, self.em, self.ec, ('west' if self.boat else 'east'))
     
     def goal_test(self) -> bool:
-        return self.is_legal and self.em == MAX_NUM and self.ec == MAX_NUM
+        return self.is_legal and self.em == MAX_NUM_M and self.ec == MAX_NUM_C
     
     @property
     def is_legal(self) -> bool:
@@ -54,7 +55,7 @@ class MCState:
             if (self.ec > 0) and (self.em > 0):
                 sucs.append(MCState(self.wm + 1, self.wc + 1, not self.boat))
         return [x for x in sucs if x.is_legal]
-    
+        
 def display_solution(path: List[MCState]):
     if len(path) == 0:          # sanitary control
         return
@@ -72,8 +73,8 @@ def display_solution(path: List[MCState]):
     
     
 if __name__ == '__main__':
-    start: MCState = MCState(MAX_NUM, MAX_NUM, True)
-    solution: Optional[Node[MCState]] = bfs(start, MCState.goal_test, MCState.successors)
+    start: MCState = MCState(MAX_NUM_M, MAX_NUM_C, True)
+    solution, count = bfs(start, MCState.goal_test, MCState.successors)
     if solution is None:
         print('No solution found!')
     else:
