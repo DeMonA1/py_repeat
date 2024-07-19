@@ -99,11 +99,6 @@ class SudokuConstraint(Constraint[int, int]):
               
         return True
 
-
-
-
-
-    
 if __name__ == '__main__':
     grid: Grid = generate_grid(9,9)
     

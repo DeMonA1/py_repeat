@@ -1,7 +1,13 @@
 from typing import Generic, TypeVar, Dict, List, Optional
 from abc import ABC, abstractmethod
+import sys
 
+sys.path.insert(0, '..')
 
+from genetic_alg.genetic_algorithm import GeneticAlgorithm
+from genetic_alg.chromosome import Chromosome
+
+C = TypeVar('C', bound=Chromosome)
 V = TypeVar('V')        # Variable type for a variable
 D = TypeVar('D')        # Domain type for definition domain
 
@@ -67,4 +73,5 @@ class CSP(Generic[V, D]):
                 if result is not None:
                     return result
         return None
+    
     
