@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from random import randint
-
+plt.scatter
 
 linear = list(range(1, 21))
 wiggly = list(num + randint(-1, 1) for num in linear)

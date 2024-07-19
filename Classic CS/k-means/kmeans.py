@@ -1,12 +1,15 @@
 from __future__ import annotations
-from typing import TypeVar, Generic, List, Sequence
+from typing import TypeVar, Generic, List, Sequence, Iterator, Tuple
 from copy import deepcopy
 from functools import partial
 from random import uniform
 from statistics import mean, pstdev
 from dataclasses import dataclass
 from data_point import DataPoint
-
+import pandas
+import matplotlib.pyplot as plt
+import numpy as np
+from random import random
 
 Point = TypeVar('Point', bound=DataPoint)
 
@@ -17,7 +20,6 @@ def zscores(original: Sequence[float]) -> List[float]:
     if std == 0:            # if there are not changes, then return all 0
         return [0] * len(original)
     return [(x - avg) / std for x in original]
-pstdev([1,2,3])
 
 class KMeans(Generic[Point]):
     
@@ -39,7 +41,7 @@ class KMeans(Generic[Point]):
             rand_point: DataPoint = self._random_point()
             cluster: KMeans.Cluster = KMeans.Cluster([], rand_point)
             self._clusters.append(cluster)
-    
+      
     @property
     def _centroids(self) -> List[DataPoint]:
         return [x.centroid for x in self._clusters]
@@ -85,6 +87,15 @@ class KMeans(Generic[Point]):
                 means.append(mean(dimension_slice))
             cluster.centroid = DataPoint(means)
             
+
+    def _gererate_centroids_kplus(self) -> None:
+        for cluster in self._clusters:
+            if len(cluster.points) == 0:
+                continue    
+            new_centroid = distance_2(cluster, self._points)
+            cluster.centroid = new_centroid
+                
+                     
     def run(self, max_iterations: int = 100) -> List[KMeans.Cluster]:
         for iteration in range(max_iterations):         
             for cluster in self._clusters:                  # to clear all clusters
@@ -93,11 +104,75 @@ class KMeans(Generic[Point]):
             # find the cluster, to which current the unit of data is closest
             old_centroids: List[DataPoint] = deepcopy(self._centroids)
             # write
-            self._generate_centroids()          # find new centroids
+            self._gererate_centroids_kplus()          # find new centroids
             if old_centroids == self._centroids:            # have the centroid shifted?
                 print(f'Converged after {iteration} iterations')
                 return self._clusters
         return self._clusters
+
+
+def distance_2(cluster: KMeans.Cluster, other: List[DataPoint]) -> DataPoint:
+    for point in other:
+        combined: Iterator[Tuple[float, float]] = zip(cluster.centroid.dimensions, point.dimensions)
+        differences: List[float] = [(x - y) ** 2 for x, y in combined]
+        sum_dif = sum(differences)
+        rnd = random() * sum_dif
+        index = 0
+        for x, y in combined:
+            differences.append(((x - y) ** 2))
+            sum_dif = sum(differences)
+            if sum_dif > rnd:
+                break 
+            index += 1
+        return other[index]
+    
+    
+    
+# work with CSV-files
+def import_csv(file):
+    data_list = []
+    data = pandas.read_csv(file)
+    dict_data = data.to_dict()
+    for index, key in enumerate(dict_data.keys()):
+        data_list.append([])
+        for value in dict_data[key].values():
+            data_list[index].append(value)
+    print(data_list)
+
+
+
+def viz2():
+    data = np.recfromcsv('file_new.csv', encoding=None, names=('time', 'packets', 'interface'))
+    colors = 'blue', 'orange'
+    ifaces = np.unique(data.interface)  # set of interfaces
+
+    assert len(colors) == ifaces.size
+
+    for color, iface in zip(colors, ifaces):
+        # getting data related with the current interface
+        items = data[data.interface == iface]
+        plt.scatter(items.time, items.packets, marker='o', label=iface, color=color)
+
+    plt.xlabel('Packets')
+    plt.ylabel('Time')
+    plt.title('TEST')
+    plt.legend()
+    plt.show()  
+#viz2()
+
+#import_csv('file_new.csv')
+""" def __init__(self, k: int, points: List[Point], clusters: List[List[float]]) -> None:
+        if k < 1:                       # number of clusters, creating via k-means method, 
+                                        # number can't be negative or = 0
+            raise ValueError('k must be >= 1')
+        self._points: List[Point] = points
+        self._zscore_normalize()
+        # initialize empty clusters with randomly cetroids
+        self._clusters: List[KMeans.Cluster] = []
+        for position in clusters:
+            cluster: KMeans.Cluster = KMeans.Cluster([], position)
+            self._clusters.append(cluster)
+     """
 
 if __name__ == '__main__':
     point1: DataPoint = DataPoint([2.0, 1.0, 1.0])
