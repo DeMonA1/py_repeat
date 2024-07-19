@@ -39,10 +39,9 @@ class Graph(Generic[V]):
         self.del_vertex_by_index(index)
     
     
-    # It's an undirected graph, so we always add vertices in both directions
+    # It's an undirected graph, so we always add vertices in ONE directions
     def add_edge(self, edge: Edge) -> None:
         self._edges[edge.u].append(edge)
-        self._edges[edge.v].append(edge.reversed())
         
     # Add the edge, using indeces of vertices (convinient method)
     def add_edge_by_indices(self, u: int, v: int) -> None:
@@ -120,6 +119,7 @@ class Graph(Generic[V]):
             desc += f'{self.vertex_at(i)} -> {self.neighbors_for_index(i)}\n'
         return desc
     
+
 if __name__ == '__main__':
     # test if simple graph constraction
     city_graph: Graph[str] = Graph(["Seattle", "San Francisco", "Los Angeles",
@@ -152,16 +152,16 @@ if __name__ == '__main__':
     city_graph.add_edge_by_vertices("Boston", "New York") 
     city_graph.add_edge_by_vertices("New York", "Philadelphia") 
     city_graph.add_edge_by_vertices('Seattle', 'Chicago')
+    city_graph.add_edge_by_vertices('Philadelphia', 'Atlanta')
+    city_graph.add_edge_by_vertices('Washington', 'San Francisco')
     
     print(city_graph)
-    print(city_graph._edges)
-    city_graph.del_vertex_by_vertex('Atlanta')
-    print(city_graph._edges)
-    print(city_graph)
+    #print(city_graph._edges)
+    #city_graph.del_vertex_by_vertex('Atlanta')
+    #print(city_graph._edges)
+    #print(city_graph)
     bfs_result: Optional[Node[V]] = bfs('Boston', lambda x: x == 'Miami',
                                         city_graph.neighbors_for_vertex)
-    
-
     if bfs_result is None:
         print('No solution found using breadth-first search!')
     else:
