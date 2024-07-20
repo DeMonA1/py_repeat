@@ -83,18 +83,20 @@ class KMeans(Generic[Point]):
                 continue
             means: List[float] = []
             for dimension in range(cluster.points[0].num_dimensions):
+                print('!!!!', dimension,  cluster.centroid, cluster.points[0])
                 dimension_slice: List[float] = [p.dimensions[dimension] for p in cluster.points]
                 means.append(mean(dimension_slice))
+            print('mean   --',means)
             cluster.centroid = DataPoint(means)
             
 
-    def _gererate_centroids_kplus(self) -> None:
+    def _generate_centroids_kplus(self) -> None:
         for cluster in self._clusters:
             if len(cluster.points) == 0:
                 continue    
-            new_centroid = distance_2(cluster, self._points)
+            new_centroid = distance_2(cluster, cluster.points)
             cluster.centroid = new_centroid
-                
+
                      
     def run(self, max_iterations: int = 100) -> List[KMeans.Cluster]:
         for iteration in range(max_iterations):         
@@ -104,13 +106,14 @@ class KMeans(Generic[Point]):
             # find the cluster, to which current the unit of data is closest
             old_centroids: List[DataPoint] = deepcopy(self._centroids)
             # write
-            self._gererate_centroids_kplus()          # find new centroids
+            self._generate_centroids_kplus()                # find new centroids
             if old_centroids == self._centroids:            # have the centroid shifted?
                 print(f'Converged after {iteration} iterations')
                 return self._clusters
         return self._clusters
 
 
+# for k-means ++
 def distance_2(cluster: KMeans.Cluster, other: List[DataPoint]) -> DataPoint:
     for point in other:
         combined: Iterator[Tuple[float, float]] = zip(cluster.centroid.dimensions, point.dimensions)
@@ -126,8 +129,6 @@ def distance_2(cluster: KMeans.Cluster, other: List[DataPoint]) -> DataPoint:
             index += 1
         return other[index]
     
-    
-    
 # work with CSV-files
 def import_csv(file):
     data_list = []
@@ -139,8 +140,7 @@ def import_csv(file):
             data_list[index].append(value)
     print(data_list)
 
-
-
+# visual display of k-means algorithm with matplotlib and numpy from CSV-file(results of k-means)
 def viz2():
     data = np.recfromcsv('file_new.csv', encoding=None, names=('time', 'packets', 'interface'))
     colors = 'blue', 'orange'
@@ -158,9 +158,9 @@ def viz2():
     plt.title('TEST')
     plt.legend()
     plt.show()  
-#viz2()
 
-#import_csv('file_new.csv')
+
+# manual input of starting centroids
 """ def __init__(self, k: int, points: List[Point], clusters: List[List[float]]) -> None:
         if k < 1:                       # number of clusters, creating via k-means method, 
                                         # number can't be negative or = 0
