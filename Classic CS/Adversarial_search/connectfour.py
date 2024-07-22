@@ -65,8 +65,8 @@ class C4Board(Board):
     SEGMENTS: List[List[Tuple[int, int]]] = generate_segments(NUM_COLUMNS, NUM_ROWS, SEGMENT_LENGTH)
     
     class Column:
-        def __init__(self) -> None:
-            self._container: List[C4Piece] = []
+        def __init__(self, container = []) -> None:
+            self._container: List[C4Piece] = container
             
         @property
         def full(self) -> bool:

@@ -14,20 +14,22 @@ def get_player_move() -> Move:
 if __name__ == '__main__':
     # global game cycle
     while True:
-        human_move: Move = get_player_move()
-        board = board.move(human_move)
+        computer_move2: Move = find_best_move(board, 5)
+        print(f'Computer move is {computer_move2}')
+        board = board.move(computer_move2)
+        print(board)
         if board.is_win:
-            print('Human wins!')
+            print('Computer 2 wins!')
             break
         elif board.is_draw:
             print('Draw!')
-            break
+            break  
         computer_move: Move = find_best_move(board, 5)
         print(f'Computer move is {computer_move}')
         board = board.move(computer_move)
         print(board)
         if board.is_win:
-            print('Computer wins!')
+            print('Computer 2 wins!')
             break
         elif board.is_draw:
             print('Draw!')
