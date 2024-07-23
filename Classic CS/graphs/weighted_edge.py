@@ -1,6 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from edge import Edge
+import sys
+sys.path.insert(0, '..')
+from graphs.edge import Edge
 
 
 @dataclass

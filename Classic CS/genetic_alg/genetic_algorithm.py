@@ -4,7 +4,7 @@ from enum import Enum
 from random import choices, random
 from heapq import nlargest
 from statistics import mean
-from chromosome import Chromosome
+from genetic_alg.chromosome import Chromosome
 
 C = TypeVar('C', bound=Chromosome)          # type of chromosoms
 
@@ -80,7 +80,6 @@ class GeneticAlgorithm(Generic[C]):
     # Executing genetic algorithm for max_generations iterations
     # and the return of best from found individuals
     def run(self) -> C:
-        print((self._population[0]).fitness)
         best: C = max(self._population, key=self._fitness_key)
         for generation in range(self._max_generation):
             # early exit, if the threshold is exceeded

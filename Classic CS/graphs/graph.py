@@ -1,5 +1,5 @@
 from typing import TypeVar, Generic, List, Optional
-from edge import Edge
+from graphs.edge import Edge
 import sys
 
 sys.path.insert(0, '..')        # import for search folder and ro bfs
