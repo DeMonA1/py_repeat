@@ -1,6 +1,8 @@
 from typing import TypeVar, Generic, List, Tuple
-from graph import Graph
-from weighted_edge import WeightedEdge
+import sys
+sys.path.insert(0, '..')
+from graphs.graph import Graph
+from graphs.weighted_edge import WeightedEdge
 
 
 V = TypeVar('V')            # vertex type in a graph
