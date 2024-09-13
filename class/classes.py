@@ -2,7 +2,7 @@ class Cat():
     def __init__(self, name) -> None:
         self.name = name
 furball = Cat('Grumpy')
-# print('Our latest addition: ', furball.name)
+# print('Our latest addition: ',furball.name)
 
 
 class Car():
